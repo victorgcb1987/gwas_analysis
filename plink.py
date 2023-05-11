@@ -3,6 +3,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+from config import EXECUTABLES_REQUIREMENTS as exec_recs
 from dependencies import get_executables
 
 def parse_arguments():
@@ -31,7 +32,7 @@ def get_options():
 
 def create_plink_bcfile(vcf_path, base_path):
 
-    cmd = [get_executables("plink")]
+    cmd = [get_executables(exec_recs["plink"])]
     cmd.extend(['--vcf', str(vcf_path)])
     cmd.extend(['--out', str(base_path)])
     cmd.extend(['--allow-extra-chr', '--double-id', '--vcf-half-call', 'missing',
