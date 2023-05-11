@@ -47,5 +47,5 @@ def create_plink_bcfile(vcf_path, base_path):
 if __name__ == '__main__':
     options = get_options()
     vcf_path = options["vcf_fpath"]
-    base_path = options["vcf_fpath"].parent / options["vcf_fpath"].stem
+    base_path = options["vcf_fpath"].parent / options["vcf_fpath"].stem.replace(".vcf", "")
     create_plink_bcfile(vcf_path, base_path)
