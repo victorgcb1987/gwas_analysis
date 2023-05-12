@@ -32,7 +32,7 @@ def parse_arguments():
                         type=int, help=help_windows_size,
                         default=50)
     help_step_size = "(Optional) windows steps"
-    parser.add_argument("--windows_size", "-w",
+    parser.add_argument("--step_size", "s",
                         type=int, help=help_step_size,
                         default=5)
     return parser
@@ -46,11 +46,13 @@ def get_options():
     pruned_plink_path = Path(options.pruned_plink)
     max_missing_rate = options.max_missing_rate
     windows_size = options.windows_size
+    step_size = options.step_size
     return {'base_plink_path': base_plink_path,
             'pruned_vars': pruned_vars,
             "pruned_plink_path": pruned_plink_path,
             "max_missing_rate": max_missing_rate,
-            "windows_size": windows_size}
+            "windows_size": windows_size,
+            "step_size": step_size}
 
 
 if __name__ == '__main__':
