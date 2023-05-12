@@ -2,6 +2,8 @@ import os
 import subprocess
 from pathlib import Path
 
+import pandas
+
 from src.config import EXECUTABLES_REQUIREMENTS as exec_recs
 from src.dependencies import get_executables
 
@@ -123,3 +125,58 @@ def create_ld_indep_variants_file(
         os.rename(plink_out_path, pruned_vars_list_path)
 
     os.chdir(current_working_dir)
+
+
+def _read_mds_projections_file(mds_path):
+    fhand = mds_path.open("rt")
+    projections = []
+    ids = []
+    columns = None
+    for line in fhand:
+        if not columns:
+            columns = [item.strip() for item in line.strip().split()][3:]
+            continue
+        items = [item.strip() for item in line.strip().split()]
+        ids.append(items[0])
+        projections.append([float(number) for number in items[3:]])
+    projections = pandas.DataFrame(projections, index=ids, columns=columns)
+    fhand.close()
+    return projections
+
+
+def do_pca(
+    bfiles_base_path,
+    out_base_path,
+    variant_filters: VariantFilters,
+    n_dims=10,
+    approx=False,):
+
+    if not variant_filters.max_major_freq:
+        raise ValueError("It is really important to filter out the low freq variants")
+    if variant_filters.max_missing_rate < 0.9:
+        raise ValueError(
+            "Consider that PCA will fill missing values with mean, so use variants with few missing data"
+        )
+
+    out_dir = out_base_path if out_base_path.is_dir() else out_base_path.parent
+
+    cmd = [get_executables(exec_recs["plink2"])]
+    cmd.extend(["--bfile", str(bfiles_base_path)])
+    cmd.append("--allow-extra-chr")
+    cmd.extend(["-out", str(out_base_path)])
+
+    cmd.append("--pca")
+    cmd.append(str(n_dims))
+    if approx:
+        cmd.append("approx")
+
+    if variant_filters is not None:
+        cmd.extend(variant_filters.create_cmd_arg_list())
+
+    stderr_path = Path(str(out_base_path) + ".pca.stderr")
+    stdout_path = Path(str(out_base_path) + ".pca.stdout")
+    run_cmd(cmd, stdout_path, stderr_path)
+    eigenvec_path = Path(str(out_base_path) + ".eigenvec")
+    projections = _read_mds_projections_file(eigenvec_path)
+
+    return {"eigenvec_path": eigenvec_path, "projections": projections}
