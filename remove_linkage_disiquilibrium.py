@@ -50,7 +50,7 @@ def get_options():
     max_missing_rate = options.max_missing_rate
     windows_size = options.windows_size
     step_size = options.step_size
-    bad_ld = options.bad-ld
+    bad_ld = options.bad_ld
     return {'base_plink_path': base_plink_path,
             'pruned_vars': pruned_vars,
             "pruned_plink_path": pruned_plink_path,
