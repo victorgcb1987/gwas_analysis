@@ -50,12 +50,14 @@ def get_options():
     max_missing_rate = options.max_missing_rate
     windows_size = options.windows_size
     step_size = options.step_size
+    bad_ld = options.bad-ld
     return {'base_plink_path': base_plink_path,
             'pruned_vars': pruned_vars,
             "pruned_plink_path": pruned_plink_path,
             "max_missing_rate": max_missing_rate,
             "windows_size": windows_size,
-            "step_size": step_size}
+            "step_size": step_size,
+            "bad_ld": bad_ld}
 
 
 if __name__ == '__main__':
@@ -66,4 +68,5 @@ if __name__ == '__main__':
             variant_filters=VariantFilters(max_missing_rate=options["max_missing_rate"]),
             window_size=options["windows_size"],
             step_size=options["step_size"],
+            bad_ld=options["bad_ld"]
         )

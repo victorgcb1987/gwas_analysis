@@ -78,6 +78,7 @@ def create_ld_indep_variants_file(
     step_size=5,
     sizes_are_in_number_of_vars=True,
     r2_threshold=0.5,
+    bad_ld=False
 ):
 
     pruned_vars_list_path = Path(pruned_vars_list_path)
@@ -102,6 +103,8 @@ def create_ld_indep_variants_file(
         cmd.extend(variant_filters.create_cmd_arg_list())
 
     cmd.append("--indep-pairwise")
+    if bad_ld:
+        cmd.extend("--bad-ld")
     if sizes_are_in_number_of_vars:
         cmd.extend([str(window_size), str(step_size), str(r2_threshold)])
     else:
