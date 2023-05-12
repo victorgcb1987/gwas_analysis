@@ -1,10 +1,8 @@
 import argparse
-import subprocess
-import sys
 from pathlib import Path
 
-from config import EXECUTABLES_REQUIREMENTS as exec_recs
-from dependencies import get_executables
+from src.plink import create_plink_bcfile
+
 
 def parse_arguments():
     desc = "Create PLINK format file for GWAS"
@@ -20,7 +18,7 @@ def parse_arguments():
                         required=True)
     return parser
 
-#Parse and return values given to options when running this program
+
 def get_options():
     parser = parse_arguments()
     options = parser.parse_args()
@@ -29,20 +27,6 @@ def get_options():
     return {'vcf_fpath': vcf_fpath,
             'out_dir': output_dir}
 
-
-def create_plink_bcfile(vcf_path, base_path):
-
-    cmd = [get_executables(exec_recs["plink2"])]
-    cmd.extend(['--vcf', str(vcf_path)])
-    cmd.extend(['--out', str(base_path)])
-    cmd.extend(['--allow-extra-chr', '--double-id', '--vcf-half-call', 'missing',
-                '--set-missing-var-ids', '@:# ', '--make-bed'])
-    stderr_path = Path(str(base_path) + '.bfiles.stderr')
-    stdout_path = Path(str(base_path) + '.bfiles.stderr')
-
-    print('Running: ', ' '.join(cmd))
-    subprocess.run(cmd, stdout=stdout_path.open('wt'),
-                   stderr=stderr_path.open('wt'), check=True)
 
 if __name__ == '__main__':
     options = get_options()
