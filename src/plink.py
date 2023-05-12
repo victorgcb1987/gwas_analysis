@@ -2,7 +2,7 @@ import os
 import subprocess
 from pathlib import Path
 
-from src.config import EXECUTABLE_REQUIREMENTS as exec_recs
+from src.config import EXECUTABLES_REQUIREMENTS as exec_recs
 from src.dependencies import get_executables
 
 
