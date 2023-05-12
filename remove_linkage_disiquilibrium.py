@@ -32,7 +32,7 @@ def parse_arguments():
                         type=int, help=help_windows_size,
                         default=50)
     help_step_size = "(Optional) windows steps"
-    parser.add_argument("--step_size", "s",
+    parser.add_argument("--step_size", "-s",
                         type=int, help=help_step_size,
                         default=5)
     return parser
