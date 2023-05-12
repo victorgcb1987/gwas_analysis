@@ -36,7 +36,7 @@ def parse_arguments():
                         type=int, help=help_step_size,
                         default=5)
     help_bad_ld = "(Optional) allow --bad-ld in plink."
-    parser.add_argument("--bad-ld", type=bool, 
+    parser.add_argument("--bad-ld", "-b", type=bool, 
                         action="store_true", help=help_bad_ld)
     return parser
 
