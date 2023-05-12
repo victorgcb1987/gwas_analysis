@@ -11,7 +11,7 @@ class VariantFilters:
         self,
         max_major_freq=0.01,
         max_missing_rate=0.1,
-        lists_of_vars_to_keep_paths: list[Path] = None,
+        lists_of_vars_to_keep_paths=None,
     ):
         self.max_major_freq = max_major_freq
         self.max_missing_rate = max_missing_rate
