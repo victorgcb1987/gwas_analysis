@@ -4,7 +4,6 @@ import argparse
 from src.plink import VariantFilters, do_pca 
 
 
-
 def parse_arguments():
     desc = "Create PLINK format file for GWAS"
     parser = argparse.ArgumentParser(description=desc)
@@ -36,7 +35,7 @@ def get_options():
     parser = parse_arguments()
     options = parser.parse_args()
     base_plink_path = Path(options.plink)
-    pruned_vars = Path(options.pruned_vars)
+    pruned_vars = [Path(options.pruned_vars)]
     pruned_plink_path = Path(options.pruned_plink)
     max_missing_rate = options.max_missing_rate
     pca_base_path = Path(options.PCA)
