@@ -51,6 +51,8 @@ if __name__ == '__main__':
     pca_variant_filters = VariantFilters(
             max_missing_rate=options["max_missing_rate"],
             lists_of_vars_to_keep_paths=options["pruned_vars"],
+            max_major_freq=0.01,
+            max_missing_rate=0.9,
         )
     pca_res = do_pca(
             options["base_plink_path"],
