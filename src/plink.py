@@ -172,6 +172,7 @@ def do_pca(
         if variant_filters is not None:
             cmd.extend(variant_filters.create_cmd_arg_list())
         run_cmd(cmd, stdout_path, stderr_path)
+        print(" ".join(cmd))
     
 
     cmd = [get_executables(exec_recs["plink2"])]
@@ -188,6 +189,7 @@ def do_pca(
         cmd.extend(variant_filters.create_cmd_arg_list())
     stderr_path = Path(str(out_base_path) + ".pca.stderr")
     stdout_path = Path(str(out_base_path) + ".pca.stdout")
+    print(" ".join(cmd))
     run_cmd(cmd, stdout_path, stderr_path)
     eigenvec_path = Path(str(out_base_path) + ".eigenvec")
     projections = _read_mds_projections_file(eigenvec_path)
