@@ -178,7 +178,7 @@ def do_pca(
     cmd = [get_executables(exec_recs["plink2"])]
     cmd.extend(["--bfile", str(bfiles_base_path)])
     if freq:
-        cmd.extend(["--read-freq ..afreq"])
+        cmd.extend(["--read-freq", "..afreq"])
     cmd.append("--allow-extra-chr")
     cmd.extend(["-out", str(out_base_path)])
     cmd.append("--pca")
