@@ -167,9 +167,11 @@ def do_pca(
         cmd.extend(["--bfile", str(bfiles_base_path)])
         cmd.append("--allow-extra-chr")
         cmd.extend(["-out", str(out_base_path)])
+        stderr_path = Path(str(out_base_path) + ".freq.stderr")
+        stdout_path = Path(str(out_base_path) + ".freq.stdout")
         if variant_filters is not None:
             cmd.extend(variant_filters.create_cmd_arg_list())
-            run_cmd(cmd, stdout_path, stderr_path)
+        run_cmd(cmd, stdout_path, stderr_path)
     
 
     cmd = [get_executables(exec_recs["plink2"])]
