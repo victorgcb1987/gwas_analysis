@@ -28,7 +28,7 @@ def parse_arguments():
     help_max_missing_rate = "(Optional) maximun variant missing rate"
     parser.add_argument("--max_missing_rate", "-m",
                         type=float, help=help_max_missing_rate,
-                        default=0.1)
+                        default=0.9)
     return parser
 
 
@@ -52,7 +52,6 @@ if __name__ == '__main__':
             max_missing_rate=options["max_missing_rate"],
             lists_of_vars_to_keep_paths=options["pruned_vars"],
             max_major_freq=0.01,
-            max_missing_rate=0.9,
         )
     pca_res = do_pca(
             options["base_plink_path"],
