@@ -28,6 +28,9 @@ def parse_arguments():
     parser.add_argument("--max_missing_rate", "-m",
                         type=float, help=help_max_missing_rate,
                         default=0.9)
+    help_freq = "(Optional) allow --freq plink (for less than 50 samples)."
+    parser.add_argument("--freq", "-f",
+                        action="store_true", help=help_freq)
     return parser
 
 
@@ -39,11 +42,13 @@ def get_options():
     pruned_plink_path = Path(options.pruned_plink)
     max_missing_rate = options.max_missing_rate
     pca_base_path = Path(options.PCA)
+    freq = options.freq
     return {'base_plink_path': base_plink_path,
             'pruned_vars': pruned_vars,
             "pruned_plink_path": pruned_plink_path,
             "max_missing_rate": max_missing_rate,
-            "pca_base_path": pca_base_path}
+            "pca_base_path": pca_base_path,
+            "freq": freq}
 
 if __name__ == '__main__':
     options = get_options()
@@ -55,5 +60,6 @@ if __name__ == '__main__':
     pca_res = do_pca(
             options["base_plink_path"],
             out_base_path=options["pca_base_path"],
-            variant_filters=pca_variant_filters
+            variant_filters=pca_variant_filters,
+            freq = options["freq"]
         )

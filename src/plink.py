@@ -149,7 +149,8 @@ def do_pca(
     out_base_path,
     variant_filters: VariantFilters,
     n_dims=10,
-    approx=False,):
+    approx=False,
+    freq=False):
 
     if not variant_filters.max_major_freq:
         raise ValueError("It is really important to filter out the low freq variants")
@@ -167,12 +168,13 @@ def do_pca(
 
     cmd.append("--pca")
     cmd.append(str(n_dims))
+    if freq:
+        cmd.append("--freq")
     if approx:
         cmd.append("approx")
 
     if variant_filters is not None:
         cmd.extend(variant_filters.create_cmd_arg_list())
-
     stderr_path = Path(str(out_base_path) + ".pca.stderr")
     stdout_path = Path(str(out_base_path) + ".pca.stdout")
     run_cmd(cmd, stdout_path, stderr_path)
