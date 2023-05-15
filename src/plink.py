@@ -161,18 +161,27 @@ def do_pca(
 
     out_dir = out_base_path if out_base_path.is_dir() else out_base_path.parent
 
+    if freq:
+        cmd = [get_executables(exec_recs["plink2"])]
+        cmd.append("--freq")
+        cmd.extend(["--bfile", str(bfiles_base_path)])
+        cmd.append("--allow-extra-chr")
+        cmd.extend(["-out", str(out_base_path)])
+        if variant_filters is not None:
+            cmd.extend(variant_filters.create_cmd_arg_list())
+            run_cmd(cmd, stdout_path, stderr_path)
+    
+
     cmd = [get_executables(exec_recs["plink2"])]
     cmd.extend(["--bfile", str(bfiles_base_path)])
+    if freq:
+        cmd.extend(["--read-freq ..freq"])
     cmd.append("--allow-extra-chr")
     cmd.extend(["-out", str(out_base_path)])
-
     cmd.append("--pca")
     cmd.append(str(n_dims))
-    if freq:
-        cmd.append("--freq")
     if approx:
         cmd.append("approx")
-
     if variant_filters is not None:
         cmd.extend(variant_filters.create_cmd_arg_list())
     stderr_path = Path(str(out_base_path) + ".pca.stderr")

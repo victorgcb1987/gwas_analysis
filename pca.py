@@ -61,5 +61,5 @@ if __name__ == '__main__':
             options["base_plink_path"],
             out_base_path=options["pca_base_path"],
             variant_filters=pca_variant_filters,
-            freq = options["freq"]
+            freq=options["freq"]
         )
