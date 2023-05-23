@@ -41,7 +41,7 @@ def parse_arguments():
                         type=str, help=help_faidx,
                         required=True)
     help_traits_to_analyze = "(Optional) traits to analyze"
-    parser.add_argument("--traits", "-t",
+    parser.add_argument("--select_traits", "-s",
                         help=help_traits_to_analyze,
                         nargs="*",required=False)
     help_qualitative = "(Optional) set traits to analyze as qualitative"
@@ -67,7 +67,7 @@ def get_options():
     output_path = Path(options.out)
     output_base = options.base
     faidx = Path(options.faidx)
-    traits = options["traits"]
+    select_traits = options["select_traits"]
     is_qualitative = options["is_qualitative"]
     return {'base_plink_path': base_plink_path,
             'traits_path': traits_path,
@@ -75,7 +75,7 @@ def get_options():
             "output_path": output_path,
             "output_base": output_base,
             "faidx": faidx,
-            "traits": traits,
+            "select_traits": select_traits,
             "is_qualitative": is_qualitative
             }
 
