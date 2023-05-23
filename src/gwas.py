@@ -8,7 +8,7 @@ from src import normalization
 from src import plink
 from src import plot
 
-from genome_coord_transform import (
+from src.genome_coord_transform import (
     GenomeCoordinateConverter,
     get_genome_sizes,
 )
