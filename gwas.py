@@ -99,7 +99,7 @@ if __name__ == "__main__":
     gwas_kwargs = {
             "bfiles_base_path": options["base_plink_path"],
             "phenotype_dframe": phenotype_dframe,
-            "out_base_name": options["out_base"],
+            "out_base_name": options["output_base"],
             "out_dir": options["out_path"],
             "traits": options["traits"],
             "genome_fai_path": options["faidx"],
