@@ -33,7 +33,7 @@ def parse_arguments():
                         type=str, help=help_output,
                         required=True)
     help_base_output = "(Required) GWAs output base name"
-    parser.add_argument("--out", "-o",
+    parser.add_argument("--base", "-b",
                         type=str, help=help_base_output,
                         required=True)
     help_faidx = "(Required) genome faidx file"
