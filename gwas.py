@@ -101,7 +101,7 @@ if __name__ == "__main__":
             "phenotype_dframe": phenotype_dframe,
             "out_base_name": options["output_base"],
             "out_dir": options["output_path"],
-            "traits": options["traits"],
+            "traits": options["select_traits"],
             "genome_fai_path": options["faidx"],
             "qualitative": options["is_qualitative"],
         }
