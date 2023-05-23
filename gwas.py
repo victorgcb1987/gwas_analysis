@@ -103,7 +103,7 @@ if __name__ == "__main__":
             "out_base_name": options["output_base"],
             "out_dir": options["output_path"],
             "traits": options["select_traits"],
-            "genome_fai_path": open(options["faidx"]).readlines(),
+            "genome_fai_path": open(options["faidx"]).read(),
             "qualitative": options["is_qualitative"],
         }
     if options["pca"]:
