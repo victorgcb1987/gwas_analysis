@@ -78,7 +78,7 @@ def get_options():
             "faidx": faidx,
             "select_traits": select_traits,
             "is_qualitative": is_qualitative,
-            "pca_structure": pca_structure,
+            "pca": pca_structure,
             }
 
 
@@ -106,6 +106,6 @@ if __name__ == "__main__":
             "genome_fai_path": options["faidx"],
             "qualitative": options["is_qualitative"],
         }
-    if options["pca_structure"]:
-            gwas_kwargs["covars_path"] = options["pca_structure"]
+    if options["pca"]:
+            gwas_kwargs["covars_path"] = options["pca"]
     do_gwas_analysis(**gwas_kwargs)
