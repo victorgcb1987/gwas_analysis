@@ -48,6 +48,7 @@ def parse_arguments():
     parser.add_argument("--qualitative", "-q",
                         help=help_qualitative,
                         action="store_true")
+    return parser
     
 
 def get_options():
