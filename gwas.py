@@ -69,7 +69,7 @@ def get_options():
     output_base = options.base
     faidx = Path(options.faidx)
     select_traits = options.select_traits
-    is_qualitative = options.is_qualitative
+    is_qualitative = options.qualitative
     return {'base_plink_path': base_plink_path,
             'traits_path': traits_path,
             'normalization_method': normalization_method,
