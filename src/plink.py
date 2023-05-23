@@ -195,3 +195,103 @@ def do_pca(
     projections = _read_mds_projections_file(eigenvec_path)
 
     return {"eigenvec_path": eigenvec_path, "projections": projections}
+
+def write_phenotype_file(phenotypes: dict, fhand, quantitative=False):
+
+    for acc, phenotype in phenotypes.items():
+        if quantitative:
+            phenotype = int(phenotype)
+            if phenotype not in (0, 1, 2, -9):
+                raise ValueError(
+                    f"Phenotypes should be 0, 1, 2, -9, but there is: {phenotype} for acc {acc}"
+                )
+        fhand.write(f"{acc}\t{acc}\t{phenotype}\n")
+    fhand.flush()
+
+def do_gwas(
+    bfiles_base_path,
+    phenotypes_path,
+    test_type,
+    out_base_path,
+    covars_path=None,
+    allow_no_covars=False,
+    variant_filters: VariantFilters | None = None,
+    ):
+
+    out_base_path = Path(str(out_base_path) + ".gwas")
+
+    cmd = [get_executables(exec_recs["plink2"])]
+    cmd.extend(["--bfile", str(bfiles_base_path)])
+
+    cmd.append("--allow-extra-chr")
+
+    # Note: --allow-no-sex no longer has any effect.  (Missing-sex samples are
+    # automatically excluded from association analysis when sex is a covariate, and
+    # treated normally otherwise.)
+    # cmd.append("--allow-no-sex")
+
+    cmd.extend(["--adjust", "cols=+qq"])
+
+    if test_type == "linear":
+        cmd.append("--linear")
+    elif test_type == "logistic":
+        cmd.append("--logistic")
+    else:
+        raise ValueError(
+            f"Unknown test type ({test_type}, it should be linear (quantitative) or logistic (qualitative))"
+        )
+
+    if covars_path:
+        cmd.extend(["--covar", str(covars_path)])
+    else:
+        if allow_no_covars:
+            cmd.append("allow-no-covars")
+        else:
+            raise ValueError("If allow_no_covars is False should should provide covars")
+
+    cmd.extend(["--pheno", str(phenotypes_path)])
+
+    if variant_filters is not None:
+        cmd.extend(variant_filters.create_cmd_arg_list())
+
+    cmd.extend(["-out", str(out_base_path)])
+
+    stderr_path = Path(str(out_base_path) + ".gwas.stderr")
+    stdout_path = Path(str(out_base_path) + ".gwas.stdout")
+
+    run_cmd(cmd, stdout_path, stderr_path)
+
+    stdout_fhand = stdout_path.open("rt")
+    stdout = stdout_fhand.read()
+    stdout_fhand.close()
+
+    if "Zero valid tests; --adjust skipped." in stdout:
+        pvalues = None
+    else:
+        test_str = 'logistic.hybrid' if test_type == 'logistic' else test_type
+        adjusted_pvalues_path = Path(
+            str(out_base_path) + f".PHENO1.glm.{test_str}.adjusted"
+        )
+        pvalues = pandas.read_csv(
+            str(adjusted_pvalues_path), delim_whitespace=True, index_col="ID"
+        )
+
+    col_mapping = {
+        "#CHROM": "chrom",
+        "ID": "variant_id",
+        "UNADJ": "pval",
+        "GC": "genomic_control_corrected_pval",
+        "QQ": "pval_quantile",
+        "BONF": "bonferroni_pval",
+        "HOLM": "holm_bonferroni_pval",
+        "SIDAK_SS": "sidak_single_step_pval",
+        "SIDAK_SD": "sidak_step_down_pval",
+        "FDR_BH": "benjamini_hochberg_pval",
+        "FDR_BY": "benjamini_yekutieli_pval",
+    }
+    if pvalues is not None:
+        pvalues.columns = [col_mapping.get(col, col) for col in pvalues.columns]
+        result = {"adjusted_pvalues": pvalues}
+    else:
+        result = {}
+    return result
