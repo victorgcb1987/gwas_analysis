@@ -100,7 +100,7 @@ if __name__ == "__main__":
             "bfiles_base_path": options["base_plink_path"],
             "phenotype_dframe": phenotype_dframe,
             "out_base_name": options["output_base"],
-            "out_dir": options["out_path"],
+            "out_dir": options["output_path"],
             "traits": options["traits"],
             "genome_fai_path": options["faidx"],
             "qualitative": options["is_qualitative"],
