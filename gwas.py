@@ -26,7 +26,7 @@ def parse_arguments():
                         default="None")
     help_pca = "(Optional) Add PCA poblation structure to GWAs analysis"
     parser.add_argument("--pca",
-                        "p", type=str, help=help_pca,
+                        "-p", type=str, help=help_pca,
                         default="False")
     help_output = "(Required) GWAs output path"
     parser.add_argument("--out", "-o",
