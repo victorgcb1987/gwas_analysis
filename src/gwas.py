@@ -19,7 +19,7 @@ def create_phenotype_from_df(df, trait):
     print(df)
     names = [name for key, name in df["SAMPLE_NAME"].items()]
     values = [value for key, value in df[trait].items()]
-    return {accesion[0]: accesion[1] for accesion in zip(names, values)}
+    return {accesion[0]: int(accesion[1]) for accesion in zip(names, values)}
 
 
 
