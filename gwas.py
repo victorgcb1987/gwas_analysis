@@ -84,7 +84,7 @@ def get_options():
 
 if __name__ == "__main__":
     options = get_options()
-    phenotype_dframe = pd.read_csv(options["traits_path"], sep="\t").dropna()
+    phenotype_dframe = pd.read_csv(options["traits_path"], sep=",").dropna()
     normalization_method = options["normalization_method"]
     output_dir = options["output_path"]
     if not output_dir.exists():
