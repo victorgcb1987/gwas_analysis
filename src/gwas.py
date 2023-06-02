@@ -15,7 +15,7 @@ from src.genome_coord_transform import (
 
 
 def create_phenotype_from_df(df, trait):
-    phenotypes = {}
+    print(df)
     names = [name for key, name in df["SAMPLE_NAME"].items()]
     values = [value for key, value in df[trait].items()]
     return {accesion[0]: accesion[1] for accesion in zip(names, values)}
@@ -42,12 +42,6 @@ def _do_gwas_analysis(
         print(f"Doing GWAS for trait: {trait}")
         trait_out_dir = out_dir / trait
         trait_out_dir.mkdir(exist_ok=True, parents=True)
-
-        # phenotypes = {
-        #     acc: phenotype
-        #     for acc, phenotype in phenotype_dframe[trait].items()
-        #     if not desired_accs or acc in desired_accs
-        # }
 
         phenotypes = create_phenotype_from_df(phenotype_dframe, trait)
 
