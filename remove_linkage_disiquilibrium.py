@@ -51,7 +51,6 @@ def get_options():
     windows_size = options.windows_size
     step_size = options.step_size
     bad_ld = options.bad_ld
-    print(bad_ld)
     return {'base_plink_path': base_plink_path,
             'pruned_vars': pruned_vars,
             "pruned_plink_path": pruned_plink_path,
